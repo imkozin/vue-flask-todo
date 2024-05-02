@@ -128,7 +128,7 @@ const updateTodo = async (id, title, text) => {
         type: 'error',
         text: error.response.data.error,
       })
-      throw new Error
+      throw new Error()
     }
     getAllTodos()
     // setTodoListToLocalStorage()
@@ -148,17 +148,18 @@ const updateTodo = async (id, title, text) => {
 
 <template>
   <main>
-    <div v-if="showModal" class="overlay">
-      <div class="modal">
-        <Icon icon="ph:x-bold" class="close" @click="showModal = false" />
-        <p>Are you sure you want to delete this task?</p>
-        <div class="btn-container">
-          <button class="btn" @click="confirmDelete">Yes</button>
-          <button class="btn" @click="cancelDelete">No</button>
+    <Teleport to="body">
+      <div v-if="showModal" class="overlay">
+        <div class="modal">
+          <Icon icon="ph:x-bold" class="close" @click="showModal = false" />
+          <p>Are you sure you want to delete this task?</p>
+          <div class="btn-container">
+            <button class="btn" @click="confirmDelete">Yes</button>
+            <button class="btn" @click="cancelDelete">No</button>
+          </div>
         </div>
       </div>
-    </div>
-
+    </Teleport>
     <h1>Create Todo</h1>
     <TodoCreator @create-todo="createTodo" />
     <ul class="todo-list" v-if="todoList.length > 0">
@@ -191,59 +192,6 @@ main {
   align-items: center;
   max-width: 100vw;
   height: 100vh;
-
-  .overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.77);
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .modal {
-    width: 400px;
-    height: 200px;
-    background-color: #f3f3f3;
-    border-radius: 10px;
-    padding: 0 30px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: space-between;
-
-    .close {
-      position: absolute;
-      top: 5%;
-      right: 3%;
-      cursor: pointer;
-    }
-
-    p {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .btn-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .btn {
-        margin: 15px;
-        padding: 10px 10px;
-        background-color: #999;
-        font-size: 20px;
-        width: 100%;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-    }
-  }
 
   h1 {
     margin-top: 50px;
