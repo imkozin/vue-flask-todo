@@ -96,22 +96,5 @@ def delete_task(id):
         return jsonify({"message": "Task not found"}), 404
 
 
-# @app.route('/api/get-product/<int:id>', methods=['GET'])
-# def get_product_data(id):
-#     product = Product.query.get(id)
-
-#     if product is not None:
-#         product_data = {
-#             'id': product.id,
-#             'name': product.name,
-#             'description': product.description,
-#             'price': product.price,
-#             'created': product.created_at
-#         }
-
-#         return jsonify({'product': product_data})
-#     else:
-#         return jsonify({'error': 'Product not found'}), 404
-
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
