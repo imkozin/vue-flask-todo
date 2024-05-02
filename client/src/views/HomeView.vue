@@ -4,7 +4,7 @@ import { Icon } from '@iconify/vue'
 import axios from 'axios'
 import TodoCreator from '@/components/TodoCreator.vue'
 import TodoItem from './TodoItem.vue'
-import { Vue3Snackbar } from "vue3-snackbar";
+import { Vue3Snackbar } from 'vue3-snackbar'
 import { useSnackbar } from 'vue3-snackbar'
 const snackbar = useSnackbar()
 
@@ -34,8 +34,10 @@ const getAllTodos = async () => {
     const data = response.data
     todoList.value = data
     const savedTodos = JSON.parse(localStorage.getItem('todos')) || []
-    todoList.value.forEach(todo => {
-      const savedTodo = savedTodos.find(savedTodo => savedTodo.task_id === todo.task_id)
+    todoList.value.forEach((todo) => {
+      const savedTodo = savedTodos.find(
+        (savedTodo) => savedTodo.task_id === todo.task_id
+      )
       if (savedTodo) {
         todo.isCompleted = savedTodo.isCompleted
       }
@@ -121,6 +123,13 @@ const updateTodo = async (id, title, text) => {
       `http://localhost:8000/api/edit-task/${id}`,
       { title, text }
     )
+    if (title.trim() === '' || text.trim() === '') {
+      snackbar.add({
+        type: 'error',
+        text: error.response.data.error,
+      })
+      throw new Error
+    }
     getAllTodos()
     // setTodoListToLocalStorage()
     snackbar.add({
