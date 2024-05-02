@@ -111,10 +111,8 @@ To run the frontend of the Flask-Vue-App locally, follow these steps:
 This will launch the development server, and your Vue application will be available in your web browser at http://localhost:5173.
 
 ## Usage
-- Register a new user.
-- Log in to have access to the product management features.
-- Edit product details or add new products.
-- Manage product list by adding, editing and removing products.
+- Edit existing todos or add new items.
+- Manage task list by adding, editing, removing and marking tasks as completed.
 
 ## Possible improvements
 
