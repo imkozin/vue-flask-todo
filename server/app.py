@@ -72,13 +72,21 @@ def edit_task(id):
         new_title = data.get("title")
         new_text = data.get("text")
 
-        if new_title is not None and new_text is not None:
+        if new_title is None or new_text is None:
+            return jsonify({"error": "Title and text fields cannot be empty"}), 400
+
+        elif len(new_title) > 30:
+            return jsonify({"error": "Task title is too long! (max. 30 symbols)"}), 400
+
+        elif len(new_text) > 50:
+            return jsonify({"error": "Text content can contain up to 50 symbols"}), 400
+
+        else:
             task.title = new_title
             task.text = new_text
             db.session.commit()
             return jsonify({"message": "Task updated successfully"}), 200
-        else:
-            return jsonify({"error": "Title and text fields cannot be empty"}), 400
+
     else:
         return jsonify({"error": "Task not found"}), 404
 
