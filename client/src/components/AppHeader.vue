@@ -7,7 +7,6 @@
       </div>
       <ul class="nav-routes">
         <RouterLink to="/"> Home </RouterLink>
-        <RouterLink to="/about"> About </RouterLink>
       </ul>
     </nav>
   </header>
