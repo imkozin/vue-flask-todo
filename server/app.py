@@ -12,13 +12,14 @@ app = Flask(__name__)
 
 CORS(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['JWT_SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+app.config["JWT_SECRET_KEY"] = os.environ.get("SECRET_KEY")
 
 
 init_db(app)
 
-@app.route('/test_db_connection')
+
+@app.route("/test_db_connection")
 def test_db_connection():
     try:
         result = db.session.execute(text("SELECT 1"))
@@ -27,37 +28,34 @@ def test_db_connection():
         return f"Error: {str(e)}"
 
 
-@app.route('/api/tasks', methods=['GET'])
+@app.route("/api/tasks", methods=["GET"])
 def get_tasks():
     tasks = Task.query.all()
 
     task_list = []
     for task in tasks:
-        task_data = {
-            'task_id': task.task_id,
-            'title': task.title,
-            'text': task.text
-        }
+        task_data = {"task_id": task.task_id, "title": task.title, "text": task.text}
 
         task_list.append(task_data)
 
     return jsonify(task_list)
 
-@app.route('/api/add-task', methods=['POST'])
+
+@app.route("/api/add-task", methods=["POST"])
 def add_product():
     data = request.get_json()
 
-    title = data.get('title')
-    text = data.get('text')
+    title = data.get("title")
+    text = data.get("text")
 
     if not text or not title:
         return jsonify({"error": "Title and text cannot be empty!"}), 400
 
     if len(title) > 30:
-        return jsonify({'error': 'Task title is too long! (max. 30 symbols)'}), 400
+        return jsonify({"error": "Task title is too long! (max. 30 symbols)"}), 400
 
     if len(text) > 50:
-        return jsonify({'error': 'Text content can contain till 50 symbols'}), 400
+        return jsonify({"error": "Text content can contain till 50 symbols"}), 400
 
     new_task = Task(title=title, text=text)
     db.session.add(new_task)
@@ -85,9 +83,9 @@ def edit_task(id):
         return jsonify({"error": "Task not found"}), 404
 
 
-@app.route('/api/delete-task/<int:id>', methods=['DELETE'])
+@app.route("/api/delete-task/<int:id>", methods=["DELETE"])
 def delete_task(id):
-    
+
     task = Task.query.get(id)
 
     if task is not None:
@@ -115,5 +113,5 @@ def delete_task(id):
 #     else:
 #         return jsonify({'error': 'Product not found'}), 404
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, port=8000)
